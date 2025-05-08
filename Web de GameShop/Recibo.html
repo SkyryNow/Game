@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Recibo de compra</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .resumen { border: 1px solid #ccc; padding: 15px; border-radius: 10px; max-width: 500px; }
+  </style>
+</head>
+<body>
+  <h2>🎉 ¡Gracias por tu compra!</h2>
+  <div class="resumen">
+    <p><strong>Nombre:</strong> <span id="res-nombre"></span></p>
+    <p><strong>Dirección:</strong> <span id="res-direccion"></span></p>
+    <p><strong>Teléfono:</strong> <span id="res-telefono"></span></p>
+    <p><strong>Correo:</strong> <span id="res-correo"></span></p>
+    <p><strong>Productos:</strong></p>
+    <ul id="res-productos"></ul>
+    <p><strong>Total:</strong> Bs <span id="res-total"></span></p>
+  </div>
+
+  <br>
+  <a href="index.html">⬅ Volver al inicio</a>
+
+  <script>
+    // Recuperar y mostrar los datos del localStorage
+    const datos = JSON.parse(localStorage.getItem('datosCompra'));
+    const productos = JSON.parse(localStorage.getItem('carritoResumen'));
+
+    if (datos && productos) {
+      document.getElementById('res-nombre').textContent = datos.nombre;
+      document.getElementById('res-direccion').textContent = datos.direccion;
+      document.getElementById('res-telefono').textContent = datos.telefono;
+      document.getElementById('res-correo').textContent = datos.correo;
+
+      let total = 0;
+      const lista = document.getElementById('res-productos');
+      productos.forEach(p => {
+        const li = document.createElement('li');
+        li.textContent = `${p.nombre} - Bs ${p.precio.toFixed(2)}`;
+        lista.appendChild(li);
+        total += p.precio;
+      });
+
+      document.getElementById('res-total').textContent = total.toFixed(2);
+    }
+  </script>
+</body>
+</html>
